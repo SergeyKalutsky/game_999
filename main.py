@@ -1,7 +1,9 @@
 import pygame as pg
 
 
-WIDTH, HEIGHT = 800, 800
+WIDTH, HEIGHT = 600, 600
+WHITE = (255, 255, 255)
+GREY = (50, 50, 50)
 FPS = 30
 
 pg.init()
@@ -14,5 +16,7 @@ while True:
         if event.type == pg.QUIT:
             pg.quit()
 
+    pg.draw.rect(screen, WHITE, pg.Rect(30, 30, 60, 60))
+    pg.display.update()
     clock.tick(FPS)
         
