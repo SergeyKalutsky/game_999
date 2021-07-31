@@ -5,7 +5,7 @@ WIDTH, HEIGHT = 600, 600
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 YELLOW = (255, 255, 0)
-RED = (255, 0, 0)
+RED = (255, 100, 100)
 GREY = (127, 127, 127)
 FPS = 30
 
@@ -36,16 +36,18 @@ class Checker:
 class Board:
     def __init__(self):
         self.board = {}
+        self._fill_board()
 
-    def update(self):
-        self._make_board()
+    def _fill_board(self):
+        for x in range(8):
+            for y in range(8):
+                self.board[(x, y)] = False
 
-    def _make_board(self):
+    def draw(self):
         for x in range(8):
             for y in range(8):
                 color = pick_color(x, y)
                 pg.draw.rect(screen, color, pg.Rect(20+x*70, 20+y*70, 70, 70))
-                self.board[(x, y)] = False
 
 
 def pick_color(i, j):
@@ -62,25 +64,31 @@ def pick_color(i, j):
 
 
 def podsvet():
-    global posX, posY
-    pos = pg.mouse.get_pos()
-    posX = pos[0]
-    posY = pos[1]
+    posX, posY = pg.mouse.get_pos()
     posX = posX // 70
     posY = posY // 70
-    pg.draw.rect(screen, YELLOW, (20+posX * 70, 20+posY * 70, 70, 70), 5)
+    pg.draw.rect(screen, YELLOW, (20+posX * 70, 20+posY * 70, 70, 70), 3)
 
 
 checker = Checker(3, 4)
 board = Board()
+board.board[(3, 4)] = True
 while True:
     screen.fill(BLACK)
     for event in pg.event.get():
         if event.type == pg.QUIT:
             pg.quit()
 
-    board.update()
+        if event.type == pg.MOUSEBUTTONDOWN:
+            x, y = pg.mouse.get_pos()
+            if board.board[(x//70, y//70)]:
+                if checker.highlite:
+                    checker.highlite = False
+                else:
+                    checker.highlite = True
+    board.draw()
     checker.draw()
+    checker.update()
     podsvet()
     pg.display.update()
     clock.tick(FPS)
