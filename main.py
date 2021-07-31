@@ -1,4 +1,3 @@
-from _typeshed import ReadableBuffer
 import pygame as pg
 
 
@@ -6,7 +5,7 @@ WIDTH, HEIGHT = 600, 600
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 YELLOW = (255, 255, 0)
-RED = (255, 0, 0 )
+RED = (255, 0, 0)
 GREY = (127, 127, 127)
 FPS = 30
 
@@ -23,7 +22,7 @@ class Checker:
         self.default_color = color
         self.color = color
         self.highlite = False
-    
+
     def update(self):
         if self.highlite:
             self.color = RED
@@ -32,6 +31,21 @@ class Checker:
 
     def draw(self):
         pg.draw.circle(screen, self.color, (55+self.x*70, 55+self.y*70), 30)
+
+
+class Board:
+    def __init__(self):
+        self.board = {}
+
+    def update(self):
+        self._make_board()
+
+    def _make_board(self):
+        for x in range(8):
+            for y in range(8):
+                color = pick_color(x, y)
+                pg.draw.rect(screen, color, pg.Rect(20+x*70, 20+y*70, 70, 70))
+                self.board[(x, y)] = False
 
 
 def pick_color(i, j):
@@ -58,17 +72,14 @@ def podsvet():
 
 
 checker = Checker(3, 4)
+board = Board()
 while True:
     screen.fill(BLACK)
     for event in pg.event.get():
         if event.type == pg.QUIT:
             pg.quit()
 
-    for i in range(8):
-        for j in range(8):
-            color = pick_color(i, j)
-            pg.draw.rect(screen, color, pg.Rect(20+i*70, 20+j*70, 70, 70))
-
+    board.update()
     checker.draw()
     podsvet()
     pg.display.update()
