@@ -30,6 +30,8 @@ while True:
                     checker.highlite = False
                 else:
                     checker.highlite = True
+
+    board.update()
     board.draw(screen)
     podsvet()
     pg.display.update()

@@ -53,5 +53,8 @@ class Board:
                 if self.board[(x, y)] is not None:
                     self.board[(x, y)].draw(screen)
 
-    def highlite_checker(self, x, y):
-        pass
+    def update(self):
+        for x in range(8):
+            for y in range(8):
+                if self.board[(x, y)] is not None:
+                    self.board[(x, y)].update()
