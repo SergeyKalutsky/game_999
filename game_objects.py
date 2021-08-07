@@ -28,7 +28,10 @@ class Board:
     def _fill_board(self):
         for x in range(8):
             for y in range(8):
-                self.board[(x, y)] = False
+                if x == 3 and y == 4:
+                    self.board[(x, y)] = Checker(x, y)
+                else:
+                    self.board[(x, y)] = None
 
     def pick_color(self, i, j):
         if i % 2 == 0:
@@ -47,6 +50,8 @@ class Board:
             for y in range(8):
                 color = self.pick_color(x, y)
                 pg.draw.rect(screen, color, pg.Rect(20+x*70, 20+y*70, 70, 70))
+                if self.board[(x, y)] is not None:
+                    self.board[(x, y)].draw(screen)
 
     def highlite_checker(self, x, y):
         pass
