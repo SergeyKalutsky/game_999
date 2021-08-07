@@ -21,6 +21,10 @@ class Checker:
 
 
 class Board:
+    black_coords = [(0, 5), (0, 7), (1, 6), 
+                  (2, 5), (2, 7), (3, 6), (4, 5), 
+                  (4, 7), (5, 6), (6, 5), (6, 7), (7, 6)]
+
     def __init__(self):
         self.board = {}
         self._fill_board()
@@ -28,7 +32,7 @@ class Board:
     def _fill_board(self):
         for x in range(8):
             for y in range(8):
-                if x == 3 and y == 4:
+                if (x, y) in self.black_coords:
                     self.board[(x, y)] = Checker(x, y)
                 else:
                     self.board[(x, y)] = None
@@ -58,3 +62,9 @@ class Board:
             for y in range(8):
                 if self.board[(x, y)] is not None:
                     self.board[(x, y)].update()
+
+    def remove_highlite(self):
+        for x in range(8):
+            for y in range(8):
+                if self.board[(x, y)] is not None:
+                    self.board[(x, y)].highlite = False

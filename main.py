@@ -14,7 +14,6 @@ def podsvet():
     posY = posY // 70
     pg.draw.rect(screen, YELLOW, (20+posX * 70, 20+posY * 70, 70, 70), 3)
 
-
 board = Board()
 while True:
     screen.fill(BLACK)
@@ -22,9 +21,14 @@ while True:
         if event.type == pg.QUIT:
             pg.quit()
 
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_ESCAPE:
+                board.remove_highlite()
+
         if event.type == pg.MOUSEBUTTONDOWN:
             x, y = pg.mouse.get_pos()
             if board.board[(x//70, y//70)]:
+                board.remove_highlite()
                 checker = board.board[(x//70, y//70)]
                 if checker.highlite:
                     checker.highlite = False
