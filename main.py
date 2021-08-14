@@ -26,16 +26,20 @@ while True:
 
         if event.type == pg.MOUSEBUTTONDOWN:
             x, y = pg.mouse.get_pos()
-            x, y = x-20, y-20
-            if board.board[(x//70, y//70)]:
-                board.remove_highlite()
-                checker = board.board[(x//70, y//70)]
-                if checker.highlite:
-                    checker.highlite = False
+            x, y = (x-20)//70, (y-20)//70
+            if event.button == 1:
+                if board.board[(x, y)]:
+                    board.remove_highlite()
+                    checker = board.board[(x, y)]
+                    if checker.highlite:
+                        checker.highlite = False
+                    else:
+                        checker.highlite = True
                 else:
-                    checker.highlite = True
-            else:
-                board.update(x, y)
+                    board.update(x, y)
+            if event.button == 3:
+                pass
+            # HOMEWORK
 
     board.draw(screen)
     podsvet()

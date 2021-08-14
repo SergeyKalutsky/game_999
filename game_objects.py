@@ -66,10 +66,9 @@ class Board:
             checker = self.board[key]
             if isinstance(checker, Checker):
                 if checker.highlite:
-                    if self.pick_color(x//70, y//70) == GREY:
-                        checker.x = x//70
-                        checker.y = y//70
-                        self.board[(x//70, y//70)] = checker
+                    if self.pick_color(x, y) == GREY:
+                        checker.x, checker.y = x, y
+                        self.board[(x, y)] = checker
                         self.board[key] = None
                         break
 
