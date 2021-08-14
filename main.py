@@ -1,6 +1,7 @@
+from copy import copy
 import pygame as pg
 from constants import WIDTH, HEIGHT, BLACK, YELLOW, FPS
-from game_objects import Checker, Board
+from game_objects import Board
 
 pg.init()
 screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -10,9 +11,11 @@ pg.display.set_caption('ШАШКИ!')
 
 def podsvet():
     posX, posY = pg.mouse.get_pos()
-    posX = posX // 70
-    posY = posY // 70
-    pg.draw.rect(screen, YELLOW, (20+posX * 70, 20+posY * 70, 70, 70), 3)
+    posX = (posX-20) // 70
+    posY = (posY-20) // 70
+    if (posX >= 0 and posX < 8) and (posY >= 0 and posY < 8):
+        pg.draw.rect(screen, YELLOW, (20+posX * 70, 20+posY * 70, 70, 70), 3)
+
 
 board = Board()
 while True:
@@ -21,12 +24,9 @@ while True:
         if event.type == pg.QUIT:
             pg.quit()
 
-        if event.type == pg.KEYDOWN:
-            if event.key == pg.K_ESCAPE:
-                board.remove_highlite()
-
         if event.type == pg.MOUSEBUTTONDOWN:
             x, y = pg.mouse.get_pos()
+            x, y = x-20, y-20
             if board.board[(x//70, y//70)]:
                 board.remove_highlite()
                 checker = board.board[(x//70, y//70)]
@@ -34,8 +34,9 @@ while True:
                     checker.highlite = False
                 else:
                     checker.highlite = True
+            else:
+                board.update(x, y)
 
-    board.update()
     board.draw(screen)
     podsvet()
     pg.display.update()
