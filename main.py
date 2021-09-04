@@ -1,4 +1,3 @@
-from copy import copy
 import pygame as pg
 from constants import WIDTH, HEIGHT, BLACK, YELLOW, FPS
 from game_objects import Board
