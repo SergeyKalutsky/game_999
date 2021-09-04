@@ -1,18 +1,26 @@
+import json
 import pygame as pg
-from constants import BLACK, RED, GREY, WHITE
+
+with open('colors.json', 'r') as f:
+    colors = json.load(f)
+
+colors = colors['Jungle Awakens']
 
 
 class Checker:
-    def __init__(self, x, y, color=BLACK):
+    def __init__(self, x, y, color=colors['BLACK']):
         self.x = x
         self.y = y
+        self.last_x = x
+        self.last_y = y
         self.color = color
         self.highlite = False
 
     def draw(self, screen):
         pg.draw.circle(screen, self.color, (55+self.x*70, 55+self.y*70), 30)
         if self.highlite:
-            pg.draw.circle(screen, RED, (55+self.x*70, 55+self.y*70), 30)
+            pg.draw.circle(screen, colors['CHOOSE'],
+                           (55+self.x*70, 55+self.y*70), 30)
 
 
 class Board:
@@ -24,6 +32,7 @@ class Board:
                     (4, 7), (5, 6), (6, 5), (6, 7), (7, 6)]
 
     def __init__(self):
+        self.last_moved_cheker = None
         self.board = {}
         self._fill_board()
 
@@ -33,21 +42,21 @@ class Board:
                 if (x, y) in self.black_coords:
                     self.board[(x, y)] = Checker(x, y)
                 elif (x, y) in self.white_coords:
-                    self.board[(x, y)] = Checker(x, y, WHITE)
+                    self.board[(x, y)] = Checker(x, y, colors['WHITE'])
                 else:
                     self.board[(x, y)] = None
 
     def pick_color(self, i, j):
         if i % 2 == 0:
             if j % 2 == 0:
-                return WHITE
+                return colors['WHITE']
             else:
-                return GREY
+                return colors['GREY']
         else:
             if j % 2 == 0:
-                return GREY
+                return colors['GREY']
             else:
-                return WHITE
+                return colors['WHITE']
 
     def draw(self, screen):
         for x in range(8):
@@ -66,10 +75,11 @@ class Board:
             checker = self.board[key]
             if isinstance(checker, Checker):
                 if checker.highlite:
-                    if self.pick_color(x, y) == GREY:
+                    if self.pick_color(x, y) == colors['GREY']:
                         checker.x, checker.y = x, y
                         self.board[(x, y)] = checker
                         self.board[key] = None
+                        self.last_moved_cheker = checker
                         break
 
     def remove_highlite(self):

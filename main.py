@@ -1,5 +1,5 @@
 import pygame as pg
-from constants import WIDTH, HEIGHT, BLACK, YELLOW, FPS
+from constants import WIDTH, HEIGHT, BLACK, YELLOW, FPS, WHITE
 from game_objects import Board
 import video
 
@@ -16,7 +16,7 @@ def podsvet():
     if (posX >= 0 and posX < 8) and (posY >= 0 and posY < 8):
         pg.draw.rect(screen, YELLOW, (20+posX * 70, 20+posY * 70, 70, 70), 3)
 
-
+l_checker = [(None, None, None), (None, None, None)]
 board = Board()
 video.run_vid()
 while True:
@@ -32,15 +32,28 @@ while True:
                 if board.board[(x, y)]:
                     board.remove_highlite()
                     checker = board.board[(x, y)]
-                    if checker.highlite:
-                        checker.highlite = False
-                    else:
+                    if not checker.highlite:
                         checker.highlite = True
+                        # l_checker - Послденяя ходившая шашка
+                        l_checker[0] = (x, y, board.board[(x, y)].color)
+                    else:
+                        checker.highlite = False
+                                    # сейчас              шаг назад
+                        l_checker = [(None, None, None), (None, None, None)]
                 else:
                     board.update(x, y)
+                    if board.pick_color(x, y) != WHITE:
+                        l_checker[1] = l_checker[0]
+                        l_checker[0] = (x, y, board.board[(x, y)].color)
+                        # Съедание шашки
+                        aver_checker = board.board[((l_checker[0][0]+l_checker[1][0])//2, (l_checker[0][1]+l_checker[1][1])//2)]
+                        if aver_checker and ((aver_checker.x != l_checker[0][0])) and ((aver_checker.color != l_checker[0][2])):
+                            board.board[
+                                ((l_checker[0][0] + l_checker[1][0]) // 2, (l_checker[0][1] + l_checker[1][1]) // 2)] = None
+
             if event.button == 3:
-                pass
-            # HOMEWORK
+                board.remove_highlite()
+                board.board[(x, y)] = None
 
     board.draw(screen)
     podsvet()
