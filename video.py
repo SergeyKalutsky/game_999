@@ -77,9 +77,9 @@ def play_movie():
     # Устанавливаем частоту кадров в соответствии с частотой кадров в видео:
     FPS = 25
     # Загружаем фйл со звуковой дорожкой:
-    # pygame.mixer.music.load('intro.mp3')
+    pygame.mixer.music.load('intro.mp3')
     # Начинаем воспроизведение звука
-    # pygame.mixer.music.play(0)
+    pygame.mixer.music.play(0)
     # Текущее состояние игры - PLAY
     scene = PLAY
     # Флаг, который указывает, что проигрывание стоит на паузе:
