@@ -2,6 +2,7 @@ from copy import copy
 import pygame as pg
 from constants import WIDTH, HEIGHT, BLACK, YELLOW, FPS
 from game_objects import Board
+import video
 
 pg.init()
 screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -18,6 +19,7 @@ def podsvet():
 
 
 board = Board()
+video.run_vid()
 while True:
     screen.fill(BLACK)
     for event in pg.event.get():
