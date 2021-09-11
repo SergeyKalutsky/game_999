@@ -17,6 +17,7 @@ def podsvet():
     if (posX >= 0 and posX < 8) and (posY >= 0 and posY < 8):
         pg.draw.rect(screen, YELLOW, (20+posX * 70, 20+posY * 70, 70, 70), 3)
 
+wallpaper = pg.image.load("wallpaper.jpg")
 menu = MainMenu(300, 200)
 game_on = False
 l_checker = [(None, None, None), (None, None, None)]
@@ -68,6 +69,7 @@ while True:
         board.draw(screen)
         podsvet()
     else:
+        screen.blit(wallpaper, (0, 0))
         menu.draw(screen)
     pg.display.update()
     clock.tick(FPS)
