@@ -1,6 +1,3 @@
-import json
+from easygui import *
 
-with open('colors.json', 'r') as f:
-    data = json.load(f)
-
-print(data['Standart'])
+msgbox("Hello, I'm in Kodland")
